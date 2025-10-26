@@ -1,5 +1,7 @@
 # Gopher 2.0
 
+![Uploading image.png…]()
+
 Un protocolo minimalista inspirado en Gopher, pero con:
 - **Contenido dinámico** (mediante bloques `<python>...</python>` ejecutados en el servidor)
 - **Cifrado de extremo a extremo** (AES-256-GCM con clave precompartida)
@@ -10,6 +12,9 @@ Ideal para:
 - APIs minimalistas
 - Canales de comunicación seguros
 - Experimentación con redes alternativas
+
+<img width="5179" height="9036" alt="NotebookLM Mind Map (1)" src="https://github.com/user-attachments/assets/68ecc493-38c4-4db1-ac2e-961d0c144346" />
+
 
 ---
 
@@ -104,6 +109,8 @@ Deberías ver la hora del servidor cifrada en tránsito y descifrada en el clien
 
 Gopher 2.0 no es un reemplazo de HTTP.
 Es una alternativa para quienes valoran la simplicidad, la privacidad y el control total. 
+
+[https://medium.com/@lazyown.redteam/%EF%B8%8F-gopher-2-0-when-your-website-is-a-secret-society-and-only-members-get-the-decrypted-menu-08dae04e4a42](https://medium.com/@lazyown.redteam/%EF%B8%8F-gopher-2-0-when-your-website-is-a-secret-society-and-only-members-get-the-decrypted-menu-08dae04e4a42)
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
