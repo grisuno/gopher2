@@ -1,0 +1,18 @@
+{
+  "/test": {
+    "content": "Selector de prueba\n<python>for i in range(3): print(f'Item {i}')</python>",
+    "vars": {}
+  },
+  "/about": {
+    "content": "Gopher 2.0: contenido dinámico + cifrado.\n<python>for i in range(1,4): print(f'Característica {i}')</python>",
+    "vars": {}
+  },
+  "/": {
+    "content": "Gopher 2.0\n<python>print(f'\\nHora del servidor: {time.strftime(\"%Y-%m-%d %H:%M:%S\")}')</python>",
+    "vars": {}
+  },
+  "/home": {
+    "content": "Bienvenido\nHora estática: {{now}}\nHora dinámica: <python>print(time.strftime('%H:%M'))</python>\nFin.",
+    "vars": { "now": "2025-10-27" }
+  }
+}
