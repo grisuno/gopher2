@@ -113,7 +113,9 @@ Deberías ver la hora del servidor cifrada en tránsito y descifrada en el clien
 Gopher 2.0 no es un reemplazo de HTTP.
 Es una alternativa para quienes valoran la simplicidad, la privacidad y el control total. 
 
+<img width="1885" height="400" alt="image" src="https://github.com/user-attachments/assets/9c18625c-e02d-4e27-9ac5-5f7c3c7e6ea9" />
 
+<img width="756" height="917" alt="image" src="https://github.com/user-attachments/assets/61cb6e95-6ba0-42bc-a76d-08f6f6d1cdbd" />
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
