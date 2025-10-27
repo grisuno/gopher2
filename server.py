@@ -16,15 +16,6 @@ from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 import os
 
-
-# === CONFIGURACIÓN ===
-HOST = "0.0.0.0"
-PORT = 7070
-
-SELECTORS_FILE = "selectors.json"
-MAX_SELECTOR_LEN = 255
-MAX_CONTENT_LEN = 1024 * 1024  # 1 MB
-
 class SecureSession:
     """
     Negocia una clave AES efímera mediante ECDH (X25519) y HKDF.
@@ -33,9 +24,11 @@ class SecureSession:
     INFO = b"gopher2_key_derivation"
     AES_KEY_LEN = 32  # 256 bits
 
-    def __init__(self):
-        # Generar par de claves efímero
-        self._private_key = x25519.X25519PrivateKey.generate()
+    def __init__(self, private_key=None):
+        if private_key is None:
+            self._private_key = x25519.X25519PrivateKey.generate()
+        else:
+            self._private_key = private_key
         self._shared_key = None
         self._aesgcm = None
 
@@ -90,7 +83,33 @@ class SecureSession:
             return plaintext.decode("utf-8", errors="replace")
         except Exception as e:
             raise ValueError(f"Fallo de autenticación o descifrado: {e}")
-            
+
+def load_server_key():
+    """Carga o genera la clave privada del servidor de forma persistente."""
+    key_path = "server_x25519_key.bin"
+    if os.path.exists(key_path):
+        with open(key_path, "rb") as f:
+            private_bytes = f.read()
+        return x25519.X25519PrivateKey.from_private_bytes(private_bytes)
+    else:
+        private_key = x25519.X25519PrivateKey.generate()
+        with open(key_path, "wb") as f:
+            f.write(private_key.private_bytes(
+                encoding=serialization.Encoding.Raw,
+                format=serialization.PrivateFormat.Raw,
+                encryption_algorithm=serialization.NoEncryption()
+            ))
+        return private_key
+
+# === CONFIGURACIÓN ===
+HOST = "0.0.0.0"
+PORT = 7070
+
+SELECTORS_FILE = "selectors.json"
+MAX_SELECTOR_LEN = 255
+MAX_CONTENT_LEN = 1024 * 1024  # 1 MB
+_SERVER_SESSION = SecureSession(load_server_key())
+
 def markdown_to_ansi(md_text: str) -> str:
     """
     Convierte un subconjunto seguro de Markdown a secuencias ANSI.
@@ -405,31 +424,30 @@ def encrypt_response(plaintext: str) -> str:
 # === MANEJAR CONEXIÓN ===
 def handle_client(conn, addr, selectors_db):
     try:
-        # Paso 1: Leer clave pública del cliente (32 bytes)
+        # 1. Leer clave pública del cliente (32 bytes)
         client_pubkey = conn.recv(32)
         if len(client_pubkey) != 32:
             conn.close()
             return
 
-        # Paso 2: Crear sesión segura
-        session = SecureSession()
+        # 2. Derivar clave compartida usando la clave PRIVADA FIJA del servidor
         try:
-            session.derive_shared_key(client_pubkey)
+            _SERVER_SESSION.derive_shared_key(client_pubkey)
         except Exception as e:
             logging.error(f"ECDH fallido con {addr}: {e}")
             conn.close()
             return
 
-        # Paso 3: Enviar clave pública del servidor
-        server_pubkey = session.get_public_key_bytes()
+        # 3. Enviar clave pública FIJA del servidor
+        server_pubkey = _SERVER_SESSION.get_public_key_bytes()
         conn.sendall(server_pubkey)
 
-        # Paso 4: Leer selector (ahora cifrado)
+        # 4. Recibir selector cifrado
         raw_enc = conn.recv(4096)
         if not raw_enc:
             return
         try:
-            selector = session.decrypt(raw_enc).strip()
+            selector = _SERVER_SESSION.decrypt(raw_enc).strip()
         except Exception as e:
             logging.error(f"Descifrado de selector fallido: {e}")
             return
@@ -439,15 +457,14 @@ def handle_client(conn, addr, selectors_db):
 
         logging.info(f"Petición de {addr}: '{selector}'")
 
-        # Renderizar y cifrar respuesta
+        # 5. Renderizar y cifrar respuesta
         try:
             plaintext = render_selector(selector, selectors_db)
         except Exception as e:
             plaintext = f"[Render Error: {e}]"
 
         try:
-            encrypted_response = session.encrypt(plaintext)
-            # Enviar tamaño (4 bytes) + datos
+            encrypted_response = _SERVER_SESSION.encrypt(plaintext)
             conn.sendall(len(encrypted_response).to_bytes(4, 'big'))
             conn.sendall(encrypted_response)
         except Exception as e:
