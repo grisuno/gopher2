@@ -9,16 +9,88 @@ import logging
 from datetime import datetime
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.exceptions import InvalidTag
+# === Clase SecureSession: ECDH + HKDF para clave AES ===
+from cryptography.hazmat.primitives.asymmetric import x25519
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+import os
+
 
 # === CONFIGURACIÓN ===
 HOST = "0.0.0.0"
 PORT = 7070
-AES_KEY = bytes.fromhex("88a41baa358a779c346d3ea784bc03f50900141bb58435f4c50864c82ff624ff")  # 32 bytes
+
 SELECTORS_FILE = "selectors.json"
 MAX_SELECTOR_LEN = 255
 MAX_CONTENT_LEN = 1024 * 1024  # 1 MB
 
+class SecureSession:
+    """
+    Negocia una clave AES efímera mediante ECDH (X25519) y HKDF.
+    Proporciona métodos para cifrar/descifrar.
+    """
+    INFO = b"gopher2_key_derivation"
+    AES_KEY_LEN = 32  # 256 bits
 
+    def __init__(self):
+        # Generar par de claves efímero
+        self._private_key = x25519.X25519PrivateKey.generate()
+        self._shared_key = None
+        self._aesgcm = None
+
+    def get_public_key_bytes(self) -> bytes:
+        """Devuelve la clave pública serializada (32 bytes)."""
+        return self._private_key.public_key().public_bytes(
+            encoding=serialization.Encoding.Raw,
+            format=serialization.PublicFormat.Raw
+        )
+
+    def derive_shared_key(self, peer_public_key_bytes: bytes):
+        """Deriva la clave compartida usando ECDH + HKDF."""
+        if len(peer_public_key_bytes) != 32:
+            raise ValueError("Clave pública debe ser 32 bytes (X25519)")
+
+        try:
+            peer_public = x25519.X25519PublicKey.from_public_bytes(peer_public_key_bytes)
+            shared_secret = self._private_key.exchange(peer_public)
+        except Exception as e:
+            raise ValueError(f"Fallo en ECDH: {e}")
+
+        # Derivar clave AES con HKDF
+        hkdf = HKDF(
+            algorithm=hashes.SHA256(),
+            length=self.AES_KEY_LEN,
+            salt=None,
+            info=self.INFO,
+        )
+        aes_key = hkdf.derive(shared_secret)
+        self._aesgcm = AESGCM(aes_key)
+
+    def encrypt(self, plaintext: str) -> bytes:
+        """Cifra texto plano → nonce (12) + ciphertext + tag (16)."""
+        if self._aesgcm is None:
+            raise RuntimeError("Clave compartida no derivada")
+        if isinstance(plaintext, str):
+            plaintext = plaintext.encode("utf-8")
+        nonce = os.urandom(12)
+        ciphertext = self._aesgcm.encrypt(nonce, plaintext, None)
+        return nonce + ciphertext
+
+    def decrypt(self, data: bytes) -> str:
+        """Descifra nonce + ciphertext → texto plano."""
+        if self._aesgcm is None:
+            raise RuntimeError("Clave compartida no derivada")
+        if len(data) < 28:  # 12 (nonce) + 16 (tag) mínimo
+            raise ValueError("Datos cifrados demasiado cortos")
+        nonce = data[:12]
+        ciphertext = data[12:]
+        try:
+            plaintext = self._aesgcm.decrypt(nonce, ciphertext, None)
+            return plaintext.decode("utf-8", errors="replace")
+        except Exception as e:
+            raise ValueError(f"Fallo de autenticación o descifrado: {e}")
+            
 def markdown_to_ansi(md_text: str) -> str:
     """
     Convierte un subconjunto seguro de Markdown a secuencias ANSI.
@@ -333,30 +405,54 @@ def encrypt_response(plaintext: str) -> str:
 # === MANEJAR CONEXIÓN ===
 def handle_client(conn, addr, selectors_db):
     try:
-        raw = conn.recv(1024)
-        if not raw:
+        # Paso 1: Leer clave pública del cliente (32 bytes)
+        client_pubkey = conn.recv(32)
+        if len(client_pubkey) != 32:
+            conn.close()
             return
-        selector = raw.decode("ascii", errors="ignore").strip().rstrip("\r\n")
+
+        # Paso 2: Crear sesión segura
+        session = SecureSession()
+        try:
+            session.derive_shared_key(client_pubkey)
+        except Exception as e:
+            logging.error(f"ECDH fallido con {addr}: {e}")
+            conn.close()
+            return
+
+        # Paso 3: Enviar clave pública del servidor
+        server_pubkey = session.get_public_key_bytes()
+        conn.sendall(server_pubkey)
+
+        # Paso 4: Leer selector (ahora cifrado)
+        raw_enc = conn.recv(4096)
+        if not raw_enc:
+            return
+        try:
+            selector = session.decrypt(raw_enc).strip()
+        except Exception as e:
+            logging.error(f"Descifrado de selector fallido: {e}")
+            return
+
         if len(selector) > MAX_SELECTOR_LEN:
             selector = selector[:MAX_SELECTOR_LEN]
 
         logging.info(f"Petición de {addr}: '{selector}'")
 
-        # Renderizar contenido
+        # Renderizar y cifrar respuesta
         try:
             plaintext = render_selector(selector, selectors_db)
         except Exception as e:
             plaintext = f"[Render Error: {e}]"
 
-        # Cifrar
         try:
-            b64_encrypted = encrypt_response(plaintext)
+            encrypted_response = session.encrypt(plaintext)
+            # Enviar tamaño (4 bytes) + datos
+            conn.sendall(len(encrypted_response).to_bytes(4, 'big'))
+            conn.sendall(encrypted_response)
         except Exception as e:
-            b64_encrypted = base64.b64encode(f"[Encrypt Error: {e}]".encode()).decode()
+            logging.error(f"Cifrado de respuesta fallido: {e}")
 
-        # Formato Gopher: tipo 'i' (información)
-        response = f"i{b64_encrypted}\terror.host\t1\r\n.\r\n"
-        conn.sendall(response.encode("ascii"))
     except Exception as e:
         logging.error(f"Error en conexión: {e}")
     finally:
