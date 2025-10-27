@@ -8,6 +8,7 @@ Un protocolo minimalista inspirado en Gopher, pero con:
 - **Contenido dinámico** (mediante bloques `<python>...</python>` ejecutados en el servidor)
 - **Contenido Formateado** (mediante bloques markdown `<md>...</md>` se codifica en ansi la salida markdown)
 - **Cifrado de extremo a extremo** (AES-256-GCM con clave precompartida)
+- **Verificación de la huella digital del servidor (como SSH)** ¿Confía en la identidad de este servidor? (s/N): (previene ataques de —man-in-the-middle)
 - **Sin JavaScript, sin HTTP, sin rastreo**
 
 Ideal para:
