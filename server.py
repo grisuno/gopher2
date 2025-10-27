@@ -93,6 +93,60 @@ def restricted_exec(code, context_vars):
 
     return output
 
+def image_to_ansi(image_path: str, width: int = 50) -> str:
+    """
+    Convierte una imagen en una cadena de escape ANSI usando bloques ▀.
+    Devuelve la representación como string, sin imprimir.
+    """
+    try:
+        from PIL import Image
+    except ImportError:
+        return "[Error: Pillow no instalado. Imposible renderizar imagen.]"
+
+    if not os.path.isfile(image_path):
+        return f"[Error: archivo no encontrado: {image_path}]"
+
+    if width < 1:
+        width = 1
+    if width > 200:  # Límite razonable para evitar DoS por ancho excesivo
+        width = 200
+
+    try:
+        img = Image.open(image_path)
+        img = img.convert('RGB')
+        orig_w, orig_h = img.size
+        if orig_w == 0 or orig_h == 0:
+            return "[Error: imagen vacía]"
+
+        aspect_ratio = orig_h / orig_w
+        new_width = width
+        new_height = int(aspect_ratio * new_width * 0.5)
+        if new_height < 2:
+            new_height = 2
+
+        img = img.resize((new_width, new_height))
+
+        # Asegurar altura par
+        if img.height % 2 == 1:
+            img = img.crop((0, 0, img.width, img.height - 1))
+            if img.height == 0:
+                return "[Error: altura de imagen inválida tras ajuste]"
+
+        lines = []
+        for y in range(0, img.height, 2):
+            line = ""
+            for x in range(img.width):
+                r1, g1, b1 = img.getpixel((x, y))
+                r2, g2, b2 = img.getpixel((x, y + 1))
+                # Asegurar valores en rango [0,255]
+                r1, g1, b1 = max(0, min(255, r1)), max(0, min(255, g1)), max(0, min(255, b1))
+                r2, g2, b2 = max(0, min(255, r2)), max(0, min(255, g2)), max(0, min(255, b2))
+                line += f"\033[38;2;{r1};{g1};{b1};48;2;{r2};{g2};{b2}m▀\033[0m"
+            lines.append(line)
+        return "\n".join(lines)
+    except Exception as e:
+        return f"[Error al renderizar imagen: {e}]"
+
 # === RENDERIZAR SELECTOR ===
 def render_selector(selector, selectors_db):
     if selector not in selectors_db:
@@ -105,31 +159,78 @@ def render_selector(selector, selectors_db):
     if len(content) > MAX_CONTENT_LEN:
         return "[Error: contenido demasiado largo]"
 
+    # Validar ruta segura para imágenes
+    def is_safe_image_path(path: str) -> bool:
+        if not path.startswith("/public/"):
+            return False
+        normalized = os.path.normpath(path)
+        if not normalized.startswith("/public/"):
+            return False
+        if ".." in normalized.split(os.sep):
+            return False
+        if not normalized.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
+            return False
+        return True
+
     # Paso 1: Interpolar {{var}} → valor
     for key, value in vars_dict.items():
         content = content.replace(f"{{{{{key}}}}}", str(value))
 
-    # Paso 2: Ejecutar bloques <python>...</python>
+    # Paso 2: Procesar bloques <img>...</img>
     final_parts = []
     i = 0
     while i < len(content):
-        start = content.find("<python>", i)
+        start = content.find("<img>", i)
         if start == -1:
             final_parts.append(content[i:])
             break
-        end = content.find("</python>", start)
+        end = content.find("</img>", start)
         if end == -1:
             final_parts.append(content[i:])
             break
         # Texto antes del bloque
         final_parts.append(content[i:start])
-        # Código Python
-        python_code = content[start + 8:end]
+        # Ruta de la imagen
+        img_path_raw = content[start + 5:end].strip()
+        if not img_path_raw:
+            final_parts.append("[Error: ruta de imagen vacía]")
+        else:
+            # Validar y renderizar
+            if is_safe_image_path(img_path_raw):
+                system_path = img_path_raw.lstrip("/")
+                ansi_output = image_to_ansi(system_path, width=50)  # ancho fijo por ahora
+                final_parts.append(ansi_output)
+            else:
+                final_parts.append("[Error: ruta de imagen no permitida]")
+        i = end + 6
+
+    # Paso 3: Procesar bloques <python>...</python> en el resultado intermedio
+    # Nota: los bloques <python> pueden estar antes, después o entre <img>
+    content_after_img = "".join(final_parts)
+    final_parts_2 = []
+    i = 0
+    while i < len(content_after_img):
+        start = content_after_img.find("<python>", i)
+        if start == -1:
+            final_parts_2.append(content_after_img[i:])
+            break
+        end = content_after_img.find("</python>", start)
+        if end == -1:
+            final_parts_2.append(content_after_img[i:])
+            break
+        final_parts_2.append(content_after_img[i:start])
+        python_code = content_after_img[start + 8:end]
         output = restricted_exec(python_code, vars_dict)
-        final_parts.append(output)
+        final_parts_2.append(output)
         i = end + 9
 
-    return "".join(final_parts)
+    result = "".join(final_parts_2)
+
+    # Verificación final de tamaño
+    if len(result.encode("utf-8")) > MAX_CONTENT_LEN:
+        return "[Error: contenido renderizado excede límite de 1 MB]"
+
+    return result
 
 # === CIFRADO ===
 def encrypt_response(plaintext: str) -> str:
