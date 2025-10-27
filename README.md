@@ -1,6 +1,7 @@
 # Gopher 2.0
 
-![Uploading image.png…]()
+<img width="720" height="720" alt="image" src="https://github.com/user-attachments/assets/0545fc20-c99f-446d-8bce-8b916d1ae553" />
+
 
 Un protocolo minimalista inspirado en Gopher, pero con:
 - **Contenido dinámico** (mediante bloques `<python>...</python>` ejecutados en el servidor)
