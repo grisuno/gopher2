@@ -12,8 +12,8 @@
     "vars": {}
   },
   "/home": {
-    "content": "Bienvenido\nHora estática: {{now}}\nHora dinámica: <python>print(time.strftime('%H:%M'))</python>\nFin.",
-    "vars": { "now": "2025-10-27" }
+    "content": "Bienvenido\nHola: {{holamundo}}\nHora : <python>print(time.strftime('%H:%M'))</python>\n. <img>/public/logo.png</img>\n.",
+    "vars": { "holamundo": "Mundo" }
   },
   "/logo": {
     "content": "<img>/public/logo.png</img>",
