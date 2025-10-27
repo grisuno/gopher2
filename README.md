@@ -110,13 +110,16 @@ Deberías ver la hora del servidor cifrada en tránsito y descifrada en el clien
 Gopher 2.0 no es un reemplazo de HTTP.
 Es una alternativa para quienes valoran la simplicidad, la privacidad y el control total. 
 
-[https://medium.com/@lazyown.redteam/%EF%B8%8F-gopher-2-0-when-your-website-is-a-secret-society-and-only-members-get-the-decrypted-menu-08dae04e4a42](https://medium.com/@lazyown.redteam/%EF%B8%8F-gopher-2-0-when-your-website-is-a-secret-society-and-only-members-get-the-decrypted-menu-08dae04e4a42)
+
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## 🔗 Links 
 - 🔗 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y2Z73AV)
+- 🔗 [https://www.patreon.com/c/LazyOwn](https://www.patreon.com/c/LazyOwn)
 - 🔗 [https://deepwiki.com/grisuno/gopher2](https://deepwiki.com/grisuno/gopher2)
 - 🔗 [https://www.youtube.com/watch?v=rOWuOgCh284](https://www.youtube.com/watch?v=rOWuOgCh284)
 - 🔗 [https://www.podbean.com/media/share/pb-jy5sy-19a4d5a](https://www.podbean.com/media/share/pb-jy5sy-19a4d5a)
 - 🔗 [https://ko-fi.com/Y8Y2Z73AV](https://ko-fi.com/Y8Y2Z73AV)
+- 🔗 [https://medium.com/@lazyown.redteam/%EF%B8%8F-gopher-2-0-when-your-website-is-a-secret-society-and-only-members-get-the-decrypted-menu-08dae04e4a42](https://medium.com/@lazyown.redteam/%EF%B8%8F-gopher-2-0-when-your-website-is-a-secret-society-and-only-members-get-the-decrypted-menu-08dae04e4a42)
+
