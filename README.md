@@ -33,7 +33,7 @@ Ideal para:
 ## 🚀 Instalación
 
 ```bash
-git clone <tu-repo>
+git clone [<tu-repo>](https://github.com/grisuno/gopher2)
 cd gopher2
 ./install.sh
 ```
@@ -50,7 +50,7 @@ cd gopher2
 
 ```bash
 
-./.venv/bin/python gopher2_server.py
+./.venv/bin/python server.py
 ```
 
 Por defecto escucha en 0.0.0.0:7070.
@@ -59,7 +59,7 @@ El contenido se define en selectors.json. Ejemplo:
 
 ```json
 {
-  "/hello": {
+  "/home": {
     "content": "Hola\\n<python>print(f'Desde: {time.strftime(\"%H:%M\")}')</python>",
     "vars": {}
   }
@@ -69,7 +69,7 @@ El contenido se define en selectors.json. Ejemplo:
 2. Consultar con el cliente
 ```bash
 
-./.venv/bin/python gopher2_client.py gopher://127.0.0.1:7070/hello
+./.venv/bin/python client.py gopher://127.0.0.1:7070/home
 ```
 Salida:
 
@@ -102,10 +102,10 @@ Los bloques <python> solo deben contener código de confianza (definido por el a
 ## 🧪 Pruebas rápidas
 ```bash
 # Terminal 1
-./.venv/bin/python gopher2_server.py
+./.venv/bin/python server.py
 
 # Terminal 2
-./.venv/bin/python gopher2_client.py gopher://127.0.0.1:7070/
+./.venv/bin/python client.py gopher://127.0.0.1:7070/
 ```
 
 Deberías ver la hora del servidor cifrada en tránsito y descifrada en el cliente.
