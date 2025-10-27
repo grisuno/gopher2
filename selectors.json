@@ -8,12 +8,12 @@
     "vars": {}
   },
   "/": {
-    "content": "Gopher 2.0\n<python>print(f'\\nHora del servidor: {time.strftime(\"%Y-%m-%d %H:%M:%S\")}')</python>",
+    "content": "Gopher 2.0\n<python>print(f'\\nHora del servidor: {time.strftime(\"%Y-%m-%d %H:%M:%S\")}')</python>\nGopher 2.0\n<img>/public/logo.png</img>\n\n",
     "vars": {}
   },
   "/home": {
-    "content": "Bienvenido\nHola: {{holamundo}}\nHora : <python>print(time.strftime('%H:%M'))</python>\n. <img>/public/logo.png</img>\n.",
-    "vars": { "holamundo": "Mundo" }
+    "content": "Hola: {{holamundo}}\nBienvenido\nHora En Gopherlandia: <python>print(time.strftime('%H:%M'))</python>\nGopher 2.0\n<img>/public/logo.png</img>\n\n- Ahora con contenido dinamico\n- cifrado\n- immágenes\n.",
+    "vars": { "holamundo": "Gopheriano" }
   },
   "/logo": {
     "content": "<img>/public/logo.png</img>",
