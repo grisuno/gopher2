@@ -12,11 +12,15 @@
     "vars": {}
   },
   "/home": {
-    "content": "Hola: {{holamundo}}\nBienvenido\nHora En Gopherlandia: <python>print(time.strftime('%H:%M'))</python>\nGopher 2.0\n<img>/public/logo.png</img>\n\n- Ahora con contenido dinamico\n- cifrado\n- immágenes\n.",
+    "content": "Hola: {{holamundo}}\nBienvenido\nHora En Gopherlandia: <python>print(time.strftime('%H:%M'))</python>\nGopher 2.0\n<img>/public/logo.png</img>\n\n- Ahora con contenido dinamico\n- cifrado\n- immágenes\n. <md># Ahora con somporte básico de markdown\n\nEsto es **Markdown**.\n\n- Retro\n- Seguro\n\n> Espero lo disfruten.</md>",
     "vars": { "holamundo": "Gopheriano" }
   },
   "/logo": {
     "content": "<img>/public/logo.png</img>",
     "vars": {}
-  }
+  },
+  "/docs": {
+    "content": "<md># Bienvenido\n\nEsto es **Markdown**.\n\n- Lista\n- Opción\n\n> Nota importante</md>",
+    "vars": {}
+}
 }
