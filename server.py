@@ -18,6 +18,79 @@ SELECTORS_FILE = "selectors.json"
 MAX_SELECTOR_LEN = 255
 MAX_CONTENT_LEN = 1024 * 1024  # 1 MB
 
+
+def markdown_to_ansi(md_text: str) -> str:
+    """
+    Convierte un subconjunto seguro de Markdown a secuencias ANSI.
+    Soporta: **negrita**, __negrita__, *cursiva*, _cursiva_,
+             # Títulos, ## Subtítulos,
+             - Listas, * Listas,
+             > Bloques de cita.
+    """
+    if not isinstance(md_text, str):
+        return ""
+
+    # --- Paso 0: Escapar secuencias ANSI existentes ---
+    import re
+    def escape_ansi(text: str) -> str:
+        return re.sub(r'\033\[[0-9;]*[a-zA-Z]', '', text)
+    text = escape_ansi(md_text)
+
+    lines = text.split('\n')
+    processed_lines = []
+    in_blockquote = False
+
+    for line in lines:
+        original_line = line
+        stripped = line.lstrip()
+        indent = line[:len(line) - len(stripped)]
+
+        # --- Bloques de cita ---
+        if stripped.startswith('>'):
+            in_blockquote = True
+            content = stripped[1:].lstrip()
+            processed_lines.append(f"{indent}\033[90m│ {content}\033[0m")
+            continue
+        else:
+            if stripped == '' and in_blockquote:
+                processed_lines.append(f"{indent}\033[90m│\033[0m")
+            else:
+                in_blockquote = False
+
+        # --- Listas: - item, * item, + item ---
+        list_match = re.match(r'^(\s*)([-*+])\s+(.+)$', line)
+        if list_match:
+            prefix, marker, content = list_match.groups()
+            processed_lines.append(f"{prefix}• {content}")
+            continue
+
+        # --- Títulos ---
+        title_match = re.match(r'^(#{1,6})\s+(.+)$', stripped)
+        if title_match and indent == '':
+            hashes, content = title_match.groups()
+            level = len(hashes)
+            if level <= 2:
+                processed_lines.append(f"\n\033[1m{content}\033[0m\n")
+            else:
+                processed_lines.append(f"\033[1m{content}\033[0m")
+            continue
+
+        # Línea normal
+        processed_lines.append(line)
+
+    text = '\n'.join(processed_lines)
+
+    # --- Énfasis: negrita y cursiva ---
+    # Negrita: **...** o __...__
+    text = re.sub(r'(\*\*|__)(.*?)\1', lambda m: f"\033[1m{m.group(2)}\033[0m", text)
+
+    # Cursiva: *...* o _..._ (con límites de palabra para evitar falsos positivos)
+    text = re.sub(r'(?<!\w)([*_])(.*?)\1(?!\w)', lambda m: f"\033[3m{m.group(2)}\033[0m", text)
+
+    # --- Limpieza final ---
+    text = re.sub(r'\n{3,}', '\n\n', text)
+    return text
+
 # === CARGAR SELECTORES ===
 def load_selectors():
     if not os.path.exists(SELECTORS_FILE):
@@ -147,6 +220,7 @@ def image_to_ansi(image_path: str, width: int = 50) -> str:
     except Exception as e:
         return f"[Error al renderizar imagen: {e}]"
 
+
 # === RENDERIZAR SELECTOR ===
 def render_selector(selector, selectors_db):
     if selector not in selectors_db:
@@ -159,76 +233,91 @@ def render_selector(selector, selectors_db):
     if len(content) > MAX_CONTENT_LEN:
         return "[Error: contenido demasiado largo]"
 
-    # Validar ruta segura para imágenes
+    # --- Paso 1: Interpolar {{var}} ---
+    for key, value in vars_dict.items():
+        content = content.replace(f"{{{{{key}}}}}", str(value))
+
+    # --- Paso 2: Procesar <img> ---
     def is_safe_image_path(path: str) -> bool:
         if not path.startswith("/public/"):
             return False
         normalized = os.path.normpath(path)
-        if not normalized.startswith("/public/"):
-            return False
-        if ".." in normalized.split(os.sep):
+        if not normalized.startswith("/public/") or ".." in normalized:
             return False
         if not normalized.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
             return False
         return True
 
-    # Paso 1: Interpolar {{var}} → valor
-    for key, value in vars_dict.items():
-        content = content.replace(f"{{{{{key}}}}}", str(value))
-
-    # Paso 2: Procesar bloques <img>...</img>
-    final_parts = []
+    parts_after_img = []
     i = 0
     while i < len(content):
         start = content.find("<img>", i)
         if start == -1:
-            final_parts.append(content[i:])
+            parts_after_img.append(content[i:])
             break
         end = content.find("</img>", start)
         if end == -1:
-            final_parts.append(content[i:])
+            parts_after_img.append(content[i:])
             break
-        # Texto antes del bloque
-        final_parts.append(content[i:start])
-        # Ruta de la imagen
+        parts_after_img.append(content[i:start])
         img_path_raw = content[start + 5:end].strip()
         if not img_path_raw:
-            final_parts.append("[Error: ruta de imagen vacía]")
+            parts_after_img.append("[Error: ruta de imagen vacía]")
         else:
-            # Validar y renderizar
             if is_safe_image_path(img_path_raw):
                 system_path = img_path_raw.lstrip("/")
-                ansi_output = image_to_ansi(system_path, width=50)  # ancho fijo por ahora
-                final_parts.append(ansi_output)
+                if not os.path.isfile(system_path):
+                    parts_after_img.append(f"[Error: archivo no encontrado: {system_path}]")
+                else:
+                    parts_after_img.append(image_to_ansi(system_path, width=50))
             else:
-                final_parts.append("[Error: ruta de imagen no permitida]")
+                parts_after_img.append("[Error: ruta de imagen no permitida]")
         i = end + 6
 
-    # Paso 3: Procesar bloques <python>...</python> en el resultado intermedio
-    # Nota: los bloques <python> pueden estar antes, después o entre <img>
-    content_after_img = "".join(final_parts)
-    final_parts_2 = []
+    content = "".join(parts_after_img)
+
+    # --- Paso 3: Procesar <python> ---
+    parts_after_python = []
     i = 0
-    while i < len(content_after_img):
-        start = content_after_img.find("<python>", i)
+    while i < len(content):
+        start = content.find("<python>", i)
         if start == -1:
-            final_parts_2.append(content_after_img[i:])
+            parts_after_python.append(content[i:])
             break
-        end = content_after_img.find("</python>", start)
+        end = content.find("</python>", start)
         if end == -1:
-            final_parts_2.append(content_after_img[i:])
+            parts_after_python.append(content[i:])
             break
-        final_parts_2.append(content_after_img[i:start])
-        python_code = content_after_img[start + 8:end]
+        parts_after_python.append(content[i:start])
+        python_code = content[start + 8:end]
         output = restricted_exec(python_code, vars_dict)
-        final_parts_2.append(output)
+        parts_after_python.append(output)
         i = end + 9
 
-    result = "".join(final_parts_2)
+    content = "".join(parts_after_python)
 
-    # Verificación final de tamaño
-    if len(result.encode("utf-8")) > MAX_CONTENT_LEN:
-        return "[Error: contenido renderizado excede límite de 1 MB]"
+    # --- Paso 4: Procesar <md> ---
+    parts_after_md = []
+    i = 0
+    while i < len(content):
+        start = content.find("<md>", i)
+        if start == -1:
+            parts_after_md.append(content[i:])
+            break
+        end = content.find("</md>", start)
+        if end == -1:
+            parts_after_md.append(content[i:])
+            break
+        parts_after_md.append(content[i:start])
+        md_content = content[start + 4:end]
+        parts_after_md.append(markdown_to_ansi(md_content))
+        i = end + 5
+
+    result = "".join(parts_after_md)
+
+    # --- Verificación final de tamaño ---
+    if len(result.encode('utf-8', errors='ignore')) > MAX_CONTENT_LEN:
+        return "[Error: contenido renderizado excede 1 MB]"
 
     return result
 
