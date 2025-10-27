@@ -6,6 +6,7 @@
 Un protocolo minimalista inspirado en Gopher, pero con:
 - **Contenido con imágenes** (mediante bloques `<img>/public/logo.png</img>` ejecutados en el servidor, convirtiendo la imagen en texto ansi con colores)
 - **Contenido dinámico** (mediante bloques `<python>...</python>` ejecutados en el servidor)
+- **Contenido Formateado** (mediante bloques markdown `<md>...</md>` se codifica en ansi la salida markdown)
 - **Cifrado de extremo a extremo** (AES-256-GCM con clave precompartida)
 - **Sin JavaScript, sin HTTP, sin rastreo**
 
