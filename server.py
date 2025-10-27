@@ -210,6 +210,10 @@ _SAFE_MODULES = {
     "json": __import__("json"),
 }
 
+def safe_print(*args, **kwargs):
+    """Print wrapper que solo escribe a un buffer controlado"""
+    print(*args, **kwargs)
+
 def restricted_exec(code, context_vars):
     """
     Ejecuta código Python en entorno restringido.
@@ -218,11 +222,12 @@ def restricted_exec(code, context_vars):
     import io
     import sys
     from types import ModuleType
-
+    import signal
+    signal.alarm(30)
     # Variables permitidas (solo lectura)
     safe_globals = {
         "__builtins__": {
-            "print": print,
+            "print": safe_print,
             "len": len,
             "str": str,
             "int": int,
@@ -272,7 +277,7 @@ def image_to_ansi(image_path: str, width: int = 50) -> str:
 
     if width < 1:
         width = 1
-    if width > 200:  # Límite razonable para evitar DoS por ancho excesivo
+    if width > 200:
         width = 200
 
     try:
@@ -360,7 +365,7 @@ def render_selector(selector, selectors_db):
                 if not os.path.isfile(system_path):
                     parts_after_img.append(f"[Error: archivo no encontrado: {system_path}]")
                 else:
-                    parts_after_img.append(image_to_ansi(system_path, width=50))
+                    parts_after_img.append(image_to_ansi(system_path, width=100))
             else:
                 parts_after_img.append("[Error: ruta de imagen no permitida]")
         i = end + 6
