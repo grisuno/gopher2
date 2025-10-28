@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# gopher2_client.py
+# client.py
 import socket
 import sys
 import base64
