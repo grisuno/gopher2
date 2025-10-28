@@ -1,56 +1,51 @@
-# gopher2_server.py
+# server.py
 import socket
 import threading
-import base64
 import json
 import os
 import time
 import logging
+import io
+import sys
 from datetime import datetime
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-from cryptography.exceptions import InvalidTag
-# === Clase SecureSession: ECDH + HKDF para clave AES ===
 from cryptography.hazmat.primitives.asymmetric import x25519
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-import os
+import signal
+
+# === Cargar módulo de widgets ANSI ===
+try:
+    import ansi_widgets
+    _ANSI_WIDGETS_AVAILABLE = True
+except ImportError:
+    _ANSI_WIDGETS_AVAILABLE = False
 
 class SecureSession:
-    """
-    Negocia una clave AES efímera mediante ECDH (X25519) y HKDF.
-    Proporciona métodos para cifrar/descifrar.
-    """
-    INFO = b"gopher2_key_derivation"
-    AES_KEY_LEN = 32  # 256 bits
+    INFO = b"gopher2_key_derivation"  # RFC 5869
+    AES_KEY_LEN = 32
 
     def __init__(self, private_key=None):
         if private_key is None:
             self._private_key = x25519.X25519PrivateKey.generate()
         else:
             self._private_key = private_key
-        self._shared_key = None
         self._aesgcm = None
 
     def get_public_key_bytes(self) -> bytes:
-        """Devuelve la clave pública serializada (32 bytes)."""
         return self._private_key.public_key().public_bytes(
             encoding=serialization.Encoding.Raw,
             format=serialization.PublicFormat.Raw
         )
 
     def derive_shared_key(self, peer_public_key_bytes: bytes):
-        """Deriva la clave compartida usando ECDH + HKDF."""
         if len(peer_public_key_bytes) != 32:
             raise ValueError("Clave pública debe ser 32 bytes (X25519)")
-
         try:
             peer_public = x25519.X25519PublicKey.from_public_bytes(peer_public_key_bytes)
             shared_secret = self._private_key.exchange(peer_public)
         except Exception as e:
             raise ValueError(f"Fallo en ECDH: {e}")
-
-        # Derivar clave AES con HKDF
         hkdf = HKDF(
             algorithm=hashes.SHA256(),
             length=self.AES_KEY_LEN,
@@ -61,23 +56,19 @@ class SecureSession:
         self._aesgcm = AESGCM(aes_key)
 
     def encrypt(self, plaintext: str) -> bytes:
-        """Cifra texto plano → nonce (12) + ciphertext + tag (16)."""
         if self._aesgcm is None:
             raise RuntimeError("Clave compartida no derivada")
         if isinstance(plaintext, str):
             plaintext = plaintext.encode("utf-8")
         nonce = os.urandom(12)
-        ciphertext = self._aesgcm.encrypt(nonce, plaintext, None)
-        return nonce + ciphertext
+        return nonce + self._aesgcm.encrypt(nonce, plaintext, None)
 
     def decrypt(self, data: bytes) -> str:
-        """Descifra nonce + ciphertext → texto plano."""
         if self._aesgcm is None:
             raise RuntimeError("Clave compartida no derivada")
-        if len(data) < 28:  # 12 (nonce) + 16 (tag) mínimo
+        if len(data) < 28:
             raise ValueError("Datos cifrados demasiado cortos")
-        nonce = data[:12]
-        ciphertext = data[12:]
+        nonce, ciphertext = data[:12], data[12:]
         try:
             plaintext = self._aesgcm.decrypt(nonce, ciphertext, None)
             return plaintext.decode("utf-8", errors="replace")
@@ -85,12 +76,10 @@ class SecureSession:
             raise ValueError(f"Fallo de autenticación o descifrado: {e}")
 
 def load_server_key():
-    """Carga o genera la clave privada del servidor de forma persistente."""
     key_path = "server_x25519_key.bin"
     if os.path.exists(key_path):
         with open(key_path, "rb") as f:
-            private_bytes = f.read()
-        return x25519.X25519PrivateKey.from_private_bytes(private_bytes)
+            return x25519.X25519PrivateKey.from_private_bytes(f.read())
     else:
         private_key = x25519.X25519PrivateKey.generate()
         with open(key_path, "wb") as f:
@@ -104,39 +93,27 @@ def load_server_key():
 # === CONFIGURACIÓN ===
 HOST = "0.0.0.0"
 PORT = 7070
-
 SELECTORS_FILE = "selectors.json"
 MAX_SELECTOR_LEN = 255
 MAX_CONTENT_LEN = 1024 * 1024  # 1 MB
+MAX_PYTHON_OUTPUT = 50 * 1024  # 50 KB
+PYTHON_TIMEOUT = 30.0  # segundos
+
 _SERVER_SESSION = SecureSession(load_server_key())
 
 def markdown_to_ansi(md_text: str) -> str:
-    """
-    Convierte un subconjunto seguro de Markdown a secuencias ANSI.
-    Soporta: **negrita**, __negrita__, *cursiva*, _cursiva_,
-             # Títulos, ## Subtítulos,
-             - Listas, * Listas,
-             > Bloques de cita.
-    """
     if not isinstance(md_text, str):
         return ""
-
-    # --- Paso 0: Escapar secuencias ANSI existentes ---
     import re
     def escape_ansi(text: str) -> str:
         return re.sub(r'\033\[[0-9;]*[a-zA-Z]', '', text)
     text = escape_ansi(md_text)
-
     lines = text.split('\n')
     processed_lines = []
     in_blockquote = False
-
     for line in lines:
-        original_line = line
         stripped = line.lstrip()
         indent = line[:len(line) - len(stripped)]
-
-        # --- Bloques de cita ---
         if stripped.startswith('>'):
             in_blockquote = True
             content = stripped[1:].lstrip()
@@ -147,15 +124,11 @@ def markdown_to_ansi(md_text: str) -> str:
                 processed_lines.append(f"{indent}\033[90m│\033[0m")
             else:
                 in_blockquote = False
-
-        # --- Listas: - item, * item, + item ---
         list_match = re.match(r'^(\s*)([-*+])\s+(.+)$', line)
         if list_match:
             prefix, marker, content = list_match.groups()
             processed_lines.append(f"{prefix}• {content}")
             continue
-
-        # --- Títulos ---
         title_match = re.match(r'^(#{1,6})\s+(.+)$', stripped)
         if title_match and indent == '':
             hashes, content = title_match.groups()
@@ -165,27 +138,15 @@ def markdown_to_ansi(md_text: str) -> str:
             else:
                 processed_lines.append(f"\033[1m{content}\033[0m")
             continue
-
-        # Línea normal
         processed_lines.append(line)
-
     text = '\n'.join(processed_lines)
-
-    # --- Énfasis: negrita y cursiva ---
-    # Negrita: **...** o __...__
     text = re.sub(r'(\*\*|__)(.*?)\1', lambda m: f"\033[1m{m.group(2)}\033[0m", text)
-
-    # Cursiva: *...* o _..._ (con límites de palabra para evitar falsos positivos)
     text = re.sub(r'(?<!\w)([*_])(.*?)\1(?!\w)', lambda m: f"\033[3m{m.group(2)}\033[0m", text)
-
-    # --- Limpieza final ---
     text = re.sub(r'\n{3,}', '\n\n', text)
     return text
 
-# === CARGAR SELECTORES ===
 def load_selectors():
     if not os.path.exists(SELECTORS_FILE):
-        # Ejemplo inicial
         default = {
             "/": {
                 "content": "Gopher 2.0\n<python>print(f'\\nHora del servidor: {time.strftime(\"%Y-%m-%d %H:%M:%S\")}')</python>",
@@ -202,32 +163,28 @@ def load_selectors():
     with open(SELECTORS_FILE) as f:
         return json.load(f)
 
-# === ENTORNO SEGURO PARA PYTHON ===
+# === ENTORNO SEGURO PARA PYTHON CON LÍMITES ===
 _SAFE_MODULES = {
     "time": __import__("time"),
     "math": __import__("math"),
     "datetime": __import__("datetime"),
     "json": __import__("json"),
 }
+if _ANSI_WIDGETS_AVAILABLE:
+    _SAFE_MODULES["ansi_widgets"] = ansi_widgets
 
 def safe_print(*args, **kwargs):
-    """Print wrapper que solo escribe a un buffer controlado"""
     print(*args, **kwargs)
 
-def restricted_exec(code, context_vars):
-    """
-    Ejecuta código Python en entorno restringido.
-    Devuelve la salida como string.
-    """
-    import io
-    import sys
-    from types import ModuleType
-    import signal
-    signal.alarm(30)
-    # Variables permitidas (solo lectura)
+
+def restricted_exec(code: str, context_vars: dict) -> str:
+    import io, sys, threading
     safe_globals = {
         "__builtins__": {
             "print": safe_print,
+            "round": round,
+            "min": min,
+            "max": max,
             "len": len,
             "str": str,
             "int": int,
@@ -243,71 +200,100 @@ def restricted_exec(code, context_vars):
             "None": None,
             "True": True,
             "False": False,
+            "__import__": __import__,
         }
     }
     safe_globals.update(_SAFE_MODULES)
     safe_globals.update(context_vars)
 
-    # Capturar stdout
     old_stdout = sys.stdout
-    sys.stdout = captured_output = io.StringIO()
+    captured_output = io.StringIO()
+    sys.stdout = captured_output
+    result = [None]
 
-    try:
-        exec(code, safe_globals, {})
-        output = captured_output.getvalue()
-    except Exception as e:
-        output = f"[Python Error: {e}]"
-    finally:
-        sys.stdout = old_stdout
+    def target():
+        try:
+            exec(code, safe_globals, {})
+            result[0] = captured_output.getvalue()
+        except Exception as e:
+            result[0] = f"[Python Error: {e}]"
+
+    thread = threading.Thread(target=target)
+    thread.daemon = True
+    thread.start()
+    thread.join(timeout=PYTHON_TIMEOUT)
+
+    sys.stdout = old_stdout
+
+    if thread.is_alive():
+        # No se puede matar el hilo en Python puro, pero al menos limitamos la salida
+        return "[Error: tiempo de ejecución excedido (1s)]"
+
+    output = result[0] or ""
+    if len(output.encode('utf-8', errors='ignore')) > MAX_PYTHON_OUTPUT:
+        return "[Error: salida de Python excede 50 KB]"
 
     return output
 
 def image_to_ansi(image_path: str, width: int = 50) -> str:
-    """
-    Convierte una imagen en una cadena de escape ANSI usando bloques ▀.
-    Devuelve la representación como string, sin imprimir.
-    """
     try:
         from PIL import Image
     except ImportError:
         return "[Error: Pillow no instalado. Imposible renderizar imagen.]"
-
-    if not os.path.isfile(image_path):
-        return f"[Error: archivo no encontrado: {image_path}]"
-
+    
     if width < 1:
         width = 1
     if width > 200:
         width = 200
 
+    # Validar que la ruta comience exactamente con "/public/"
+    if not image_path.startswith("/public/"):
+        return "[Error: ruta debe comenzar con /public/]"
+
+    # Extraer la parte relativa
+    rel_part = image_path[8:]  # "/public/".length == 8
+
+    # Rechazar si hay componentes vacíos o peligrosos
+    if not rel_part or ".." in rel_part or rel_part.startswith("/") or "//" in rel_part:
+        return "[Error: ruta no permitida]"
+
+    # Validar extensión
+    if not rel_part.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
+        return "[Error: formato no soportado]"
+
+    # Construir ruta segura
+    base_dir = os.path.abspath("public")
+    full_path = os.path.abspath(os.path.join(base_dir, rel_part))
+
+    # Verificar que la ruta final esté dentro de "public/"
+    if not full_path.startswith(base_dir + os.sep) and full_path != base_dir:
+        return "[Error: ruta fuera de public/]"
+
+    if not os.path.isfile(full_path):
+        return f"[Error: archivo no encontrado: {full_path}]"
+
     try:
-        img = Image.open(image_path)
+        img = Image.open(full_path)
         img = img.convert('RGB')
         orig_w, orig_h = img.size
         if orig_w == 0 or orig_h == 0:
             return "[Error: imagen vacía]"
-
         aspect_ratio = orig_h / orig_w
         new_width = width
         new_height = int(aspect_ratio * new_width * 0.5)
         if new_height < 2:
             new_height = 2
-
         img = img.resize((new_width, new_height))
-
-        # Asegurar altura par
         if img.height % 2 == 1:
             img = img.crop((0, 0, img.width, img.height - 1))
             if img.height == 0:
-                return "[Error: altura de imagen inválida tras ajuste]"
-
+                return "[Error: altura inválida]"
         lines = []
         for y in range(0, img.height, 2):
             line = ""
             for x in range(img.width):
                 r1, g1, b1 = img.getpixel((x, y))
                 r2, g2, b2 = img.getpixel((x, y + 1))
-                # Asegurar valores en rango [0,255]
                 r1, g1, b1 = max(0, min(255, r1)), max(0, min(255, g1)), max(0, min(255, b1))
                 r2, g2, b2 = max(0, min(255, r2)), max(0, min(255, g2)), max(0, min(255, b2))
                 line += f"\033[38;2;{r1};{g1};{b1};48;2;{r2};{g2};{b2}m▀\033[0m"
@@ -316,11 +302,22 @@ def image_to_ansi(image_path: str, width: int = 50) -> str:
     except Exception as e:
         return f"[Error al renderizar imagen: {e}]"
 
-
-# === RENDERIZAR SELECTOR ===
-def render_selector(selector, selectors_db):
+def render_selector(selector: str, selectors_db: dict) -> str:
     if selector not in selectors_db:
-        return f"Selector '{selector}' no encontrado"
+        # === Página de error 404 estilizada ===
+        error_content = (
+            "\033[1;31m⚠️  ERROR 404\033[0m\n"
+            "\033[90m╔══════════════════════════════════════╗\033[0m\n"
+            "\033[90m║ Selector no encontrado                ║\033[0m\n"
+            f"\033[90m║ Solicitado: {selector:<30} ║\033[0m\n"
+            "\033[90m║                                      ║\033[0m\n"
+            "\033[90m║ ¿Quizás alguno de estos?             ║\033[0m\n"
+            "\033[90m║ • /                                  ║\033[0m\n"
+            "\033[90m║ • /about                             ║\033[0m\n"
+            "\033[90m║ • /docs                              ║\033[0m\n"
+            "\033[90m╚══════════════════════════════════════╝\033[0m"
+        )
+        return error_content
 
     entry = selectors_db[selector]
     content = entry.get("content", "")
@@ -329,21 +326,7 @@ def render_selector(selector, selectors_db):
     if len(content) > MAX_CONTENT_LEN:
         return "[Error: contenido demasiado largo]"
 
-    # --- Paso 1: Interpolar {{var}} ---
-    for key, value in vars_dict.items():
-        content = content.replace(f"{{{{{key}}}}}", str(value))
-
-    # --- Paso 2: Procesar <img> ---
-    def is_safe_image_path(path: str) -> bool:
-        if not path.startswith("/public/"):
-            return False
-        normalized = os.path.normpath(path)
-        if not normalized.startswith("/public/") or ".." in normalized:
-            return False
-        if not normalized.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
-            return False
-        return True
-
+    # === Paso 1: Procesar <img> ===
     parts_after_img = []
     i = 0
     while i < len(content):
@@ -360,19 +343,11 @@ def render_selector(selector, selectors_db):
         if not img_path_raw:
             parts_after_img.append("[Error: ruta de imagen vacía]")
         else:
-            if is_safe_image_path(img_path_raw):
-                system_path = img_path_raw.lstrip("/")
-                if not os.path.isfile(system_path):
-                    parts_after_img.append(f"[Error: archivo no encontrado: {system_path}]")
-                else:
-                    parts_after_img.append(image_to_ansi(system_path, width=100))
-            else:
-                parts_after_img.append("[Error: ruta de imagen no permitida]")
+            parts_after_img.append(image_to_ansi(img_path_raw, width=100))
         i = end + 6
-
     content = "".join(parts_after_img)
 
-    # --- Paso 3: Procesar <python> ---
+    # === Paso 2: Procesar <python> ===
     parts_after_python = []
     i = 0
     while i < len(content):
@@ -389,10 +364,13 @@ def render_selector(selector, selectors_db):
         output = restricted_exec(python_code, vars_dict)
         parts_after_python.append(output)
         i = end + 9
-
     content = "".join(parts_after_python)
 
-    # --- Paso 4: Procesar <md> ---
+    # === Paso 3: Interpolar {{var}} ===
+    for key, value in vars_dict.items():
+        content = content.replace(f"{{{{{key}}}}}", str(value))
+
+    # === Paso 4: Procesar <md> ===
     parts_after_md = []
     i = 0
     while i < len(content):
@@ -411,48 +389,34 @@ def render_selector(selector, selectors_db):
 
     result = "".join(parts_after_md)
 
-    # --- Verificación final de tamaño ---
     if len(result.encode('utf-8', errors='ignore')) > MAX_CONTENT_LEN:
         return "[Error: contenido renderizado excede 1 MB]"
 
     return result
 
-# === CIFRADO ===
-def encrypt_response(plaintext: str) -> str:
-    if isinstance(plaintext, str):
-        plaintext = plaintext.encode("utf-8")
-    aesgcm = AESGCM(AES_KEY)
-    nonce = os.urandom(12)
-    ciphertext = aesgcm.encrypt(nonce, plaintext, None)
-    return base64.b64encode(nonce + ciphertext).decode()
-
-# === MANEJAR CONEXIÓN ===
 def handle_client(conn, addr, selectors_db):
     try:
-        # 1. Leer clave pública del cliente (32 bytes)
         client_pubkey = conn.recv(32)
         if len(client_pubkey) != 32:
             conn.close()
             return
 
-        # 2. Derivar clave compartida usando la clave PRIVADA FIJA del servidor
+        session = SecureSession(load_server_key())
         try:
-            _SERVER_SESSION.derive_shared_key(client_pubkey)
+            session.derive_shared_key(client_pubkey)
         except Exception as e:
             logging.error(f"ECDH fallido con {addr}: {e}")
             conn.close()
             return
 
-        # 3. Enviar clave pública FIJA del servidor
-        server_pubkey = _SERVER_SESSION.get_public_key_bytes()
+        server_pubkey = session.get_public_key_bytes()
         conn.sendall(server_pubkey)
 
-        # 4. Recibir selector cifrado
         raw_enc = conn.recv(4096)
         if not raw_enc:
             return
         try:
-            selector = _SERVER_SESSION.decrypt(raw_enc).strip()
+            selector = session.decrypt(raw_enc).strip()
         except Exception as e:
             logging.error(f"Descifrado de selector fallido: {e}")
             return
@@ -462,14 +426,13 @@ def handle_client(conn, addr, selectors_db):
 
         logging.info(f"Petición de {addr}: '{selector}'")
 
-        # 5. Renderizar y cifrar respuesta
         try:
             plaintext = render_selector(selector, selectors_db)
         except Exception as e:
             plaintext = f"[Render Error: {e}]"
 
         try:
-            encrypted_response = _SERVER_SESSION.encrypt(plaintext)
+            encrypted_response = session.encrypt(plaintext)
             conn.sendall(len(encrypted_response).to_bytes(4, 'big'))
             conn.sendall(encrypted_response)
         except Exception as e:
@@ -480,7 +443,6 @@ def handle_client(conn, addr, selectors_db):
     finally:
         conn.close()
 
-# === SERVIDOR PRINCIPAL ===
 def main():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
     selectors_db = load_selectors()
