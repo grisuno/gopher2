@@ -1,10 +1,11 @@
-# Gopher 2.0
+# 🌐 Gopher 2.0
 
 <img width="720" height="720" alt="image" src="https://github.com/user-attachments/assets/0545fc20-c99f-446d-8bce-8b916d1ae553" />
 
 
 Un protocolo minimalista inspirado en Gopher, pero con:
 - **Contenido con imágenes** (mediante bloques `<img>/public/logo.png</img>` ejecutados en el servidor, convirtiendo la imagen en texto ansi con colores)
+- **Contenido con animaciones** (mediante multiples bloques /anim/frameNN `<img>/public/anim/frameNN.png</img>` ejecutados en el servidor, convirtiendo las imagenes en texto ansi con colores estilo flipbook)
 - **Contenido dinámico** (mediante bloques `<python>...</python>` ejecutados en el servidor)
 - **Contenido Formateado** (mediante bloques markdown `<md>...</md>` se codifica en ansi la salida markdown)
 - **Cifrado de extremo a extremo** (AES-256-GCM con clave negociada)
