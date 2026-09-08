@@ -1,0 +1,22 @@
+{
+  "tool": "readmenator",
+  "generated_at": "2026-09-08T17:56:05Z",
+  "project_root": "/tmp/push_gopher2_20260908_131917",
+  "files": 5,
+  "symbols": 40,
+  "imports": 405,
+  "resolved_imports": 1,
+  "security_findings": 0,
+  "languages": {
+    "py": 4,
+    "sh": 1
+  },
+  "entrypoints": [],
+  "start_here": "INDEX.md",
+  "workflow": [
+    "grep -n '<keyword>' INDEX.md",
+    "cat KB_<subsystem>.md",
+    "grep -n '<file>' ARCHITECTURE.md SYMBOLS.md"
+  ],
+  "regenerate": "readmenator . --rebuild"
+}
