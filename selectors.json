@@ -1,50 +1,106 @@
 {
   "/": {
-    "content": "<python>\nimport time, random\nnow = time.strftime('%Y-%m-%d %H:%M:%S')\nuptime = random.randint(10, 999)\nload = round(random.uniform(0.8, 4.2), 2)\ncolor = '\\033[38;5;45m' if load < 2.0 else '\\033[38;5;208m' if load < 3.5 else '\\033[38;5;196m'\nreset = '\\033[0m'\n\nprint(f'{color}🌐 Gopher 2.0{reset}')\nprint(f'{color}──────────────────────{reset}')\nprint(f'\\n🕒 {now}')\nprint(f'⏱️  Uptime: {uptime} min')\nprint(f'📈 Load Avg: {color}{load}{reset}')\n\nif ansi_widgets:\n    services = {\n        'Gopherd': random.choice([True, True, False]),\n        'Crypto': True,\n        'Renderer': True,\n        'AnimEngine': random.choice([True, False])\n    }\n    status_lines = []\n    for name, up in services.items():\n        icon = '🟢' if up else '🔴'\n        status_lines.append(f'{icon} {name}')\n    status_panel = ansi_widgets.bordered_panel('🛠️  Servicios', '\\n'.join(status_lines), style='rounded')\n    print('\\n' + status_panel)\n</python>\n\n<img>/public/logo.png</img>",
+    "content": "<python>\nimport time, random\nnow = time.strftime('%Y-%m-%d %H:%M:%S')\nuptime = random.randint(10, 999)\nload = round(random.uniform(0.8, 4.2), 2)\ncolor = '\\033[38;5;45m' if load < 2.0 else '\\033[38;5;208m' if load < 3.5 else '\\033[38;5;196m'\nreset = '\\033[0m'\nprint(f'{color}🌐 Gopher 2.0 — portal{reset}')\nprint(f'{color}──────────────────────{reset}')\nprint(f'\\n🕒 {now}   ⏱️  {uptime} min   📈 {color}{load}{reset}')\nif ansi_widgets:\n    services = {'Gopherd': True, 'Crypto': True, 'Renderer': True, 'AnimEngine': True, 'Forms': True}\n    lines = [('🟢 ' if v else '🔴 ') + k for k, v in services.items()]\n    print('\\n' + ansi_widgets.bordered_panel('🛠️  Servicios', '\\n'.join(lines), style='single'))\n</python>\n<md>\n# 🏠 Índice\n\nLa web divertida **sin rastreadores**: sin JS, sin cookies, sin referer. Todo cifrado X25519 + AES-256-GCM.\n\n## 📌 Secciones\n\n- [🛡️ About](/about) — qué es esto\n- [📊 Dashboard](/dashboard) — métricas en vivo\n- [🎞️ Anim flipbook](/anim) — 12 frames, auto-play\n- [🖼️ Galería](/galeria) — imágenes responsive + GIF\n- [👋 Hola + formulario](/hola) — tu primer `?query` y `send`\n- [📝 Guestbook](/guestbook) — firma persistente\n- [🕸️ Webring](/webring) — como en 1998\n- [🤖 Cyber](/cyber) — modo hacker\n- [🌤️ Weather](/weather) — clima ficticio\n- [🖼️ Logo solo](/logo) — imagen a full\n- [📚 Docs](/docs) — sintaxis de autor\n\n---\n</md>\n<img width=60>/public/logo.png</img>\n<md>\n> 💡 **Modo navegador:** `python3 client.py -b gopher://127.0.0.1:7070/` — historial, links con número, formularios con `fill` / `send`.\n</md>",
     "vars": {}
   },
   "/about": {
-    "content": "<md>## 🛡️ Gopher 2.0: La Web que Nunca Fue\n\n- 🔒 **Cifrado E2E**: X25519 + AES-256-GCM\n- ⚡ **Dinámico**: Python seguro en el servidor\n- 🎨 **ANSI Avanzado**: Gráficos, paneles, progreso\n- 🖼️ **Imágenes en terminal**: PNG → ANSI en tiempo real\n- 🎞️ **Animaciones**: Flipbook cifrado\n\n> \"Menos ruido, más señal. Menos JS, más alma.\"</md>",
+    "content": "<md>## 🛡️ Gopher 2.0: La Web que Nunca Fue\n\n- 🔒 **Cifrado E2E**: X25519 + AES-256-GCM\n- ⚡ **Dinámico**: Python seguro en el servidor\n- 🎨 **ANSI Avanzado**: Gráficos, paneles, progreso\n- 🖼️ **Imágenes responsive**: PNG/JPG/GIF → ANSI half-block, ancho del cliente\n- 🎞️ **Animaciones**: flipbook `/anim/*` + GIF multi-frame en 1 respuesta\n- 📝 **Formularios**: `<form>` + `?query`, sin cookies ni JS\n- 🕸️ **Links inline**: `[txt](/sel)` numerados, historial back/fwd\n\n> \"Menos ruido, más señal. Menos JS, más alma.\"\n\n[🏠 Inicio](/) · [📚 Docs](/docs) · [🕸️ Webring](/webring)</md>",
     "vars": {}
   },
   "/dashboard": {
-    "content": "<python>\nimport time, random\ntheme = ansi_widgets.ansi_time_theme() if ansi_widgets else ''\nreset = '\\033[0m'\nprint(f'{theme}🌅 Dashboard en Vivo{reset}')\n\nif ansi_widgets:\n    # Métricas cambiantes\n    cpu = min(100, max(0, 65 + random.randint(-10, 15)))\n    ram = min(100, max(0, 42 + random.randint(-8, 12)))\n    net = random.randint(10, 120)\n    disk = 78\n\n    # Gráfico de barras\n    stats = {'CPU': cpu, 'RAM': ram, 'Red ↑': net, 'Disco': disk}\n    chart = ansi_widgets.bar_chart(stats, width=55, color_map={'CPU': 'red', 'RAM': 'blue', 'Red ↑': 'yellow', 'Disco': 'green'})\n    panel = ansi_widgets.bordered_panel('📊 Sistema en Tiempo Real', chart, style='double')\n    print('\\n' + panel)\n\n    # Barra de progreso con porcentaje\n    print('\\n' + ansi_widgets.progress_bar(cpu, 100, 50, ))\n\n    # Reloj digital estilizado\n    clock = time.strftime('%H:%M:%S')\n    print(f'\\n\\033[1;36m🕰️  {clock}\\033[0m')\n</python>",
+    "content": "<python>\nimport time, random\ntheme = ansi_widgets.ansi_time_theme() if ansi_widgets else ''\nreset = '\\033[0m'\nprint(f'{theme}🌅 Dashboard en Vivo{reset}')\n\nif ansi_widgets:\n    cpu = min(100, max(0, 65 + random.randint(-10, 15)))\n    ram = min(100, max(0, 42 + random.randint(-8, 12)))\n    net = random.randint(10, 120)\n    disk = 78\n    stats = {'CPU': cpu, 'RAM': ram, 'Red ↑': net, 'Disco': disk}\n    chart = ansi_widgets.bar_chart(stats, width=55, color_map={'CPU': 'red', 'RAM': 'blue', 'Red ↑': 'yellow', 'Disco': 'green'})\n    panel = ansi_widgets.bordered_panel('📊 Sistema en Tiempo Real', chart, style='double')\n    print('\\n' + panel)\n    print('\\n' + ansi_widgets.progress_bar(cpu, 100, 50, ))\n    clock = time.strftime('%H:%M:%S')\n    print(f'\\n\\033[1;36m🕰️  {clock}\\033[0m')\n</python>\n\n<md>\n[🏠 Inicio](/) · [🖼️ Galería](/galeria)\n</md>",
     "vars": {}
   },
   "/anim": {
-    "content": "<python>\nif ansi_widgets:\n    title = ansi_widgets.gradient_text('🎞️ ANIMACIÓN ANSI', ['red', 'magenta', 'blue'])\n    print(title)\nelse:\n    print('🎞️ ANIMACIÓN ANSI')\n</python>\n\n<md>\n¡Una explosión de color en tu terminal!\n\nEsta animación se reproduce **automáticamente** si visitas este selector con el cliente Gopher 2.0.\n\n- 12 frames de alta fidelidad\n- Renderizado PNG → ANSI en tiempo real\n- Cifrado de extremo a extremo\n\n> ⚡ **Consejo**: Usa un terminal con soporte truecolor (como Alacritty, Kitty o moderno GNOME Terminal).</md>",
+    "content": "<python>\nprint('🎞️ ANIMACIÓN ANSI')\n</python>\n\n<md>\n¡Una explosión de color en tu terminal!\n\nEsta animación se reproduce **automáticamente** si visitas este selector con el cliente Gopher 2.0.\n\n- 12 frames de alta fidelidad\n- Renderizado PNG → ANSI en tiempo real\n- Cifrado de extremo a extremo\n\n[🖼️ Ver galería estática](/galeria) · [🏠 Inicio](/)\n\n> ⚡ **Consejo**: Usa un terminal con soporte truecolor (como Alacritty, Kitty o moderno GNOME Terminal).</md>",
     "vars": {}
   },
-  "/anim/frame00": { "content": "<img>/public/anim/frame00.png</img>", "vars": {} },
-  "/anim/frame01": { "content": "<img>/public/anim/frame01.png</img>", "vars": {} },
-  "/anim/frame02": { "content": "<img>/public/anim/frame02.png</img>", "vars": {} },
-  "/anim/frame03": { "content": "<img>/public/anim/frame03.png</img>", "vars": {} },
-  "/anim/frame04": { "content": "<img>/public/anim/frame04.png</img>", "vars": {} },
-  "/anim/frame05": { "content": "<img>/public/anim/frame05.png</img>", "vars": {} },
-  "/anim/frame06": { "content": "<img>/public/anim/frame06.png</img>", "vars": {} },
-  "/anim/frame07": { "content": "<img>/public/anim/frame07.png</img>", "vars": {} },
-  "/anim/frame08": { "content": "<img>/public/anim/frame08.png</img>", "vars": {} },
-  "/anim/frame09": { "content": "<img>/public/anim/frame09.png</img>", "vars": {} },
-  "/anim/frame10": { "content": "<img>/public/anim/frame10.png</img>", "vars": {} },
-  "/anim/frame11": { "content": "<img>/public/anim/frame11.png</img>", "vars": {} },
+  "/anim/frame00": {
+    "content": "<img>/public/anim/frame00.png</img>",
+    "vars": {}
+  },
+  "/anim/frame01": {
+    "content": "<img>/public/anim/frame01.png</img>",
+    "vars": {}
+  },
+  "/anim/frame02": {
+    "content": "<img>/public/anim/frame02.png</img>",
+    "vars": {}
+  },
+  "/anim/frame03": {
+    "content": "<img>/public/anim/frame03.png</img>",
+    "vars": {}
+  },
+  "/anim/frame04": {
+    "content": "<img>/public/anim/frame04.png</img>",
+    "vars": {}
+  },
+  "/anim/frame05": {
+    "content": "<img>/public/anim/frame05.png</img>",
+    "vars": {}
+  },
+  "/anim/frame06": {
+    "content": "<img>/public/anim/frame06.png</img>",
+    "vars": {}
+  },
+  "/anim/frame07": {
+    "content": "<img>/public/anim/frame07.png</img>",
+    "vars": {}
+  },
+  "/anim/frame08": {
+    "content": "<img>/public/anim/frame08.png</img>",
+    "vars": {}
+  },
+  "/anim/frame09": {
+    "content": "<img>/public/anim/frame09.png</img>",
+    "vars": {}
+  },
+  "/anim/frame10": {
+    "content": "<img>/public/anim/frame10.png</img>",
+    "vars": {}
+  },
+  "/anim/frame11": {
+    "content": "<img>/public/anim/frame11.png</img>",
+    "vars": {}
+  },
+  "/galeria": {
+    "content": "<md>\n# 🖼️ Galería responsive\n\nEl servidor renderiza al **ancho de TU terminal** (lo envía el cliente).\nPrueba a estrechar/ensanchar y recargar.\n\n## Logo a 3 anchos\n</md>\n<md>**Ancho 40:**</md>\n<img width=40>/public/logo.png</img>\n<md>\n**Ancho 60:**\n</md>\n<img width=60>/public/logo.png</img>\n<md>\n**Auto (tu terminal):**\n</md>\n<img>/public/logo.png</img>\n<md>\n## GIF animado\n\nSube un `demo.gif` a `public/` y se anima solo en 1 respuesta:\n\n`<gif width=60>/public/demo.gif</gif>`\n\n[🏠 Inicio](/) · [🎞️ Anim](/anim) · [📚 Docs](/docs)\n</md>",
+    "vars": {}
+  },
+  "/hola": {
+    "content": "<md>\n# 👋 Hola, formulario\n\nSin JS ni cookies: el cliente hace `send nombre=...` y llega como `?nombre=...`.\n</md>\n<form action=\"/hola\">\n<input name=\"nombre\" prompt=\"Tu nombre\" default=\"anon\">\n</form>\n<md>\n---\n</md>\n<python>\nprint(f'\\033[1;32m¡Hola, {nombre}!\\033[0m 👋')\n</python>\n<md>\nHola **{{nombre}}** — esto es `{{nombre}}` interpolado sin Python.\n\nPrueba directa: [/hola?nombre=Neo](/hola?nombre=Neo)\n\n[🏠 Inicio](/) · [📝 Guestbook](/guestbook)\n</md>",
+    "vars": {
+      "nombre": "anon"
+    }
+  },
+  "/guestbook": {
+    "content": "<md>\n# 📝 Guestbook persistente\n\nFirma y queda guardado en `guestbook.json` del servidor. Sin cuentas, sin trackers.\n</md>\n<form action=\"/guestbook\">\n<input name=\"nick\" prompt=\"Tu nick\" default=\"anon\">\n<input name=\"msg\" prompt=\"Tu mensaje\" default=\"hola mundo\">\n</form>\n<md>\n## ✍️ Firmas (últimas 10)\n\n{{guestbook_list}}\n\n[🏠 Inicio](/) · [👋 Hola](/hola)\n</md>",
+    "vars": {}
+  },
+  "/webring": {
+    "content": "<md>\n# 🕸️ Webring — como en 1998\n\nSalta entre nodos sin salir del cifrado. Nada externo, nada de ads.\n\n- [🏠 Este nodo (/)](/)\n- [👋 Hola](/hola)\n- [📝 Guestbook](/guestbook)\n- [🎞️ Anim](/anim)\n- [🌤️ Weather](/weather)\n\nExterna (bloqueada a propósito): [ejemplo](https://example.com)\n\n> Los links `https://` se muestran pero **no se siguen**: anti-tracker por diseño.\n\n[🏠 Inicio](/) · [📚 Docs](/docs)\n</md>",
+    "vars": {}
+  },
   "/cyber": {
-    "content": "<python>\nimport time\nif ansi_widgets:\n    lines = [\n        '\\033[38;5;46m> ACCESO CONCEDIDO AL NÚCLEO CYBER\\033[0m',\n        '\\033[38;5;46m> INICIANDO SECUENCIA DE DESCIFRADO...\\033[0m',\n    ]\n    for line in lines:\n        print(line)\n        time.sleep(0.3)\n    \n    # Simular descifrado\n    for i in range(1, 6):\n        dots = '.' * i\n        print(f'\\r\\033[38;5;46m> DESCIFRANDO{dots:5}\\033[0m', end='', flush=True)\n        time.sleep(0.2)\n    print('\\n\\033[1;38;5;46m🔓 ¡SISTEMA DESBLOQUEADO!\\033[0m')\n    \n    # Matriz de datos\n    data = {\n        'Nivel de Amenaza': '🟢 Bajo',\n        'Firewall': '✅ Activo',\n        'Intrusos': '0',\n        'Ancho de Banda': '987 Mbps'\n    }\n    panel = ansi_widgets.bordered_panel('🛡️  PANEL CYBER DEFENSE', '\\n'.join(f'{k}: {v}' for k, v in data.items()), style='heavy')\n    print('\\n' + panel)\nelse:\n    print('🔐 Modo Cyber: requiere ansi_widgets')\n</python>",
+    "content": "<python>\nimport time\nif ansi_widgets:\n    lines = [\n        '\\033[38;5;46m> ACCESO CONCEDIDO AL NÚCLEO CYBER\\033[0m',\n        '\\033[38;5;46m> INICIANDO SECUENCIA DE DESCIFRADO...\\033[0m',\n    ]\n    for line in lines:\n        print(line)\n        time.sleep(0.3)\n    for i in range(1, 6):\n        dots = '.' * i\n        print(f'\\r\\033[38;5;46m> DESCIFRANDO{dots:5}\\033[0m', end='', flush=True)\n        time.sleep(0.2)\n    print('\\n\\033[1;38;5;46m🔓 ¡SISTEMA DESBLOQUEADO!\\033[0m')\n    data = {'Nivel de Amenaza': '🟢 Bajo','Firewall': '✅ Activo','Intrusos': '0','Ancho de Banda': '987 Mbps'}\n    panel = ansi_widgets.bordered_panel('🛡️  PANEL CYBER DEFENSE', '\\n'.join(f'{k}: {v}' for k, v in data.items()), style='heavy')\n    print('\\n' + panel)\nelse:\n    print('🔐 Modo Cyber: requiere ansi_widgets')\n</python>\n\n<md>\n[🏠 Inicio](/) · [📊 Dashboard](/dashboard)\n</md>",
     "vars": {}
   },
   "/weather": {
-    "content": "<python>\nimport random\nif ansi_widgets:\n    city = 'Neo-Tokyo'\n    temp = random.randint(18, 32)\n    condition = random.choice(['Soleado ☀️', 'Parcialmente nublado ⛅', 'Lluvia ligera 🌦️'])\n    humidity = random.randint(40, 85)\n    wind = random.randint(5, 25)\n    \n    # Icono según clima\n    icon = '☀️' if 'Soleado' in condition else '⛅' if 'nublado' in condition else '🌧️'\n    \n    # Panel meteorológico\n    weather_info = f\"{icon} {condition}\\n🌡️  {temp}°C\\n💧 Humedad: {humidity}%\\n💨 Viento: {wind} km/h\"\n    panel = ansi_widgets.bordered_panel(f'🌤️  Clima en {city}', weather_info, style='rounded')\n    print(panel)\n    \n    # Pronóstico extendido\n    days = ['Hoy', 'Mañana', 'Jueves', 'Viernes']\n    temps = [f'{random.randint(20,30)}°' for _ in days]\n    forecast = '  '.join(f'{d}: {t}' for d, t in zip(days, temps))\n    print(f'\\n\\033[90m{forecast}\\033[0m')\nelse:\n    print('🌤️ Clima: requiere ansi_widgets')\n</python>",
+    "content": "<python>\nimport random\nif ansi_widgets:\n    city = 'Neo-Tokyo'\n    temp = random.randint(18, 32)\n    condition = random.choice(['Soleado ☀️', 'Parcialmente nublado ⛅', 'Lluvia ligera 🌦️'])\n    humidity = random.randint(40, 85)\n    wind = random.randint(5, 25)\n    icon = '☀️' if 'Soleado' in condition else '⛅' if 'nublado' in condition else '🌧️'\n    weather_info = f\"{icon} {condition}\\n🌡️  {temp}°C\\n💧 Humedad: {humidity}%\\n💨 Viento: {wind} km/h\"\n    panel = ansi_widgets.bordered_panel(f'🌤️  Clima en {city}', weather_info, style='rounded')\n    print(panel)\n    days = ['Hoy', 'Mañana', 'Jueves', 'Viernes']\n    temps = [f'{random.randint(20,30)}°' for _ in days]\n    forecast = '  '.join(f'{d}: {t}' for d, t in zip(days, temps))\n    print(f'\\n\\033[90m{forecast}\\033[0m')\nelse:\n    print('🌤️ Clima: requiere ansi_widgets')\n</python>\n\n<md>\n[🏠 Inicio](/) · [🕸️ Webring](/webring)\n</md>",
     "vars": {}
   },
   "/error-test": {
     "content": "Selector inexistente: {{nonexistent}}\n<python>print('Esto no debería ejecutarse')</python>",
-    "vars": { "nonexistent": "error-test" }
+    "vars": {
+      "nonexistent": "error-test"
+    }
   },
   "/docs": {
-    "content": "<md># 📚 Documentación\n\n## Características\n\n- **Seguridad**: X25519 + AES-256-GCM\n- **Dinamismo**: Ejecución segura de Python\n- **Estética**: Renderizado ANSI avanzado\n- **Multimedia**: Imágenes y animaciones en terminal\n\n> Diseñado para amantes de la terminal.\n\n## Selectores especiales\n\n- `/` → Inicio dinámico\n- `/dashboard` → Métricas en vivo\n- `/cyber` → Modo hacker\n- `/weather` → Clima ficticio\n- `/anim` → Animación automática</md>",
+    "content": "<md>\n# 📚 Documentación de autor\n\n## Seguridad\n\n- **X25519 + AES-256-GCM**, TOFU como SSH. Sin cookies, sin JS, sin referer.\n- `https://` externo: se muestra, no se sigue.\n\n## Multimedia\n\n- `<img>/public/a.png</img>` — auto ancho del cliente\n- `<img width=60>/public/a.png</img>` — ancho fijo\n- `<gif width=60>/public/a.gif</gif>` — animado en 1 respuesta (Ctrl+C detiene)\n\n## Links estilo web\n\n- `[texto](/sel)` y `<a href=\"/sel\">texto</a>` → numerados, `go N` o número\n- Query: `[saludar](/hola?nombre=Neo)` → `{{nombre}}` o var Python `nombre`\n\n## Formularios (nuevo)\n\n```html\n<form action=\"/hola\">\n  <input name=\"nombre\" prompt=\"Tu nombre\" default=\"anon\">\n</form>\n```\n\n- Cliente browse: `fill` (pregunta todo) o `send nombre=Juan`\n- 1 campo: basta `send Juan`\n- Multi: `send nick=yo, msg=hola`\n- El servidor expone cada campo como `{{campo}}` + var Python\n\n## Guestbook\n\n- `/guestbook?nick=X&msg=Y` guarda en `guestbook.json` (50 máx, saneo ANSI)\n- `{{guestbook_list}}` muestra últimas 10\n\n## Cliente\n\n- `python3 client.py gopher://127.0.0.1:7070/hola?nombre=Neo`\n- `python3 client.py -b gopher://127.0.0.1:7070/` → back/fwd/reload/go/send/fill\n\n[🏠 Inicio](/) · [👋 Probar form](/hola) · [📝 Firmar](/guestbook)\n</md>",
     "vars": {}
   },
   "/logo": {
-    "content": "<img>/public/logo.png</img>",
+    "content": "<img>/public/logo.png</img>\n\n<md>\n[🏠 Inicio](/) · [🖼️ Galería](/galeria)\n</md>",
     "vars": {}
   }
 }
