@@ -1,0 +1,120 @@
+# Concepts
+
+Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
+
+- `para` | files=4 | mentions=9 | `client.py`, `image_renderer.py`, `install.sh`, `server.py`
+- `ansi` | files=3 | mentions=14 | `ansi_widgets.py`, `image_renderer.py`, `server.py`
+- `sin` | files=3 | mentions=10 | `client.py`, `image_renderer.py`, `server.py`
+- `public` | files=3 | mentions=9 | `client.py`, `image_renderer.py`, `server.py`
+- `render` | files=3 | mentions=8 | `client.py`, `image_renderer.py`, `server.py`
+- `key` | files=3 | mentions=7 | `ansi_widgets.py`, `client.py`, `server.py`
+- `width` | files=3 | mentions=7 | `client.py`, `image_renderer.py`, `server.py`
+- `gif` | files=3 | mentions=6 | `client.py`, `image_renderer.py`, `server.py`
+- `server` | files=3 | mentions=6 | `client.py`, `image_renderer.py`, `server.py`
+- `terminal` | files=3 | mentions=6 | `client.py`, `image_renderer.py`, `server.py`
+- `bytes` | files=3 | mentions=4 | `client.py`, `image_renderer.py`, `server.py`
+- `error` | files=3 | mentions=4 | `client.py`, `image_renderer.py`, `install.sh`
+- `que` | files=3 | mentions=3 | `client.py`, `image_renderer.py`, `server.py`
+- `image` | files=2 | mentions=8 | `image_renderer.py`, `server.py`
+- `devuelve` | files=2 | mentions=7 | `client.py`, `image_renderer.py`
+- `frame` | files=2 | mentions=7 | `client.py`, `image_renderer.py`
+- `block` | files=2 | mentions=5 | `image_renderer.py`, `server.py`
+- `con` | files=2 | mentions=5 | `client.py`, `image_renderer.py`
+- `form` | files=2 | mentions=5 | `client.py`, `server.py`
+- `get` | files=2 | mentions=5 | `client.py`, `server.py`
+- `links` | files=2 | mentions=5 | `client.py`, `server.py`
+- `texto` | files=2 | mentions=5 | `client.py`, `server.py`
+- `cach` | files=2 | mentions=4 | `image_renderer.py`, `server.py`
+- `client` | files=2 | mentions=4 | `client.py`, `server.py`
+- `renderer` | files=2 | mentions=4 | `image_renderer.py`, `server.py`
+- `action` | files=2 | mentions=3 | `client.py`, `server.py`
+- `ancho` | files=2 | mentions=3 | `client.py`, `image_renderer.py`
+- `auto` | files=2 | mentions=3 | `image_renderer.py`, `server.py`
+- `decrypt` | files=2 | mentions=3 | `client.py`, `server.py`
+- `multi` | files=2 | mentions=3 | `client.py`, `image_renderer.py`
+- `por` | files=2 | mentions=3 | `client.py`, `image_renderer.py`
+- `saneo` | files=2 | mentions=3 | `image_renderer.py`, `server.py`
+- `sanitize` | files=2 | mentions=3 | `ansi_widgets.py`, `server.py`
+- `separa` | files=2 | mentions=3 | `client.py`, `image_renderer.py`
+- `servidor` | files=2 | mentions=3 | `client.py`, `install.sh`
+- `sobre` | files=2 | mentions=3 | `image_renderer.py`, `server.py`
+- `x1f` | files=2 | mentions=3 | `client.py`, `server.py`
+- `animation` | files=2 | mentions=2 | `client.py`, `image_renderer.py`
+- `bloque` | files=2 | mentions=2 | `client.py`, `server.py`
+- `clamp` | files=2 | mentions=2 | `ansi_widgets.py`, `image_renderer.py`
+- `cliente` | files=2 | mentions=2 | `install.sh`, `server.py`
+- `convierte` | files=2 | mentions=2 | `image_renderer.py`, `server.py`
+- `derive` | files=2 | mentions=2 | `client.py`, `server.py`
+- `encrypt` | files=2 | mentions=2 | `client.py`, `server.py`
+- `gopher` | files=2 | mentions=2 | `client.py`, `install.sh`
+- `gopher2` | files=2 | mentions=2 | `client.py`, `image_renderer.py`
+- `img` | files=2 | mentions=2 | `image_renderer.py`, `server.py`
+- `json` | files=2 | mentions=2 | `client.py`, `server.py`
+- `link` | files=2 | mentions=2 | `client.py`, `server.py`
+- `parse` | files=2 | mentions=2 | `image_renderer.py`, `server.py`
+
+## Verb Edges
+
+- `action` --depends_on--> `ansi` (strength 1.00)
+- `action` --depends_on--> `clamp` (strength 1.00)
+- `bloque` --depends_on--> `ansi` (strength 1.00)
+- `bloque` --depends_on--> `clamp` (strength 1.00)
+- `bytes` --depends_on--> `ansi` (strength 1.00)
+- `bytes` --depends_on--> `clamp` (strength 1.00)
+- `client` --depends_on--> `ansi` (strength 1.00)
+- `client` --depends_on--> `clamp` (strength 1.00)
+- `decrypt` --depends_on--> `ansi` (strength 1.00)
+- `decrypt` --depends_on--> `clamp` (strength 1.00)
+- `derive` --depends_on--> `ansi` (strength 1.00)
+- `derive` --depends_on--> `clamp` (strength 1.00)
+- `encrypt` --depends_on--> `ansi` (strength 1.00)
+- `encrypt` --depends_on--> `clamp` (strength 1.00)
+- `form` --depends_on--> `ansi` (strength 1.00)
+- `form` --depends_on--> `clamp` (strength 1.00)
+- `get` --depends_on--> `ansi` (strength 1.00)
+- `get` --depends_on--> `clamp` (strength 1.00)
+- `gif` --depends_on--> `ansi` (strength 1.00)
+- `gif` --depends_on--> `clamp` (strength 1.00)
+- `json` --depends_on--> `ansi` (strength 1.00)
+- `json` --depends_on--> `clamp` (strength 1.00)
+- `key` --depends_on--> `ansi` (strength 1.00)
+- `key` --depends_on--> `clamp` (strength 1.00)
+- `link` --depends_on--> `ansi` (strength 1.00)
+- `link` --depends_on--> `clamp` (strength 1.00)
+- `links` --depends_on--> `ansi` (strength 1.00)
+- `links` --depends_on--> `clamp` (strength 1.00)
+- `para` --depends_on--> `ansi` (strength 1.00)
+- `para` --depends_on--> `clamp` (strength 1.00)
+- `public` --depends_on--> `ansi` (strength 1.00)
+- `public` --depends_on--> `clamp` (strength 1.00)
+- `que` --depends_on--> `ansi` (strength 1.00)
+- `que` --depends_on--> `clamp` (strength 1.00)
+- `render` --depends_on--> `ansi` (strength 1.00)
+- `render` --depends_on--> `clamp` (strength 1.00)
+- `server` --depends_on--> `ansi` (strength 1.00)
+- `server` --depends_on--> `clamp` (strength 1.00)
+- `sin` --depends_on--> `ansi` (strength 1.00)
+- `sin` --depends_on--> `clamp` (strength 1.00)
+- `terminal` --depends_on--> `ansi` (strength 1.00)
+- `terminal` --depends_on--> `clamp` (strength 1.00)
+- `texto` --depends_on--> `ansi` (strength 1.00)
+- `texto` --depends_on--> `clamp` (strength 1.00)
+- `width` --depends_on--> `ansi` (strength 1.00)
+- `width` --depends_on--> `clamp` (strength 1.00)
+- `x1f` --depends_on--> `ansi` (strength 1.00)
+- `x1f` --depends_on--> `clamp` (strength 1.00)
+- `action` --depends_on--> `ancho` (strength 0.67)
+- `action` --depends_on--> `animation` (strength 0.67)
+
+## Dialectic
+
+- Thesis: `action` centralizes 2 files; Antithesis: `bloque` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `action` centralizes 2 files; Antithesis: `bytes` pulls 3 files with 2 shared (Jaccard 0.67); Synthesis: should they merge, split by layer, or keep `depends_on` explicit?
+- Thesis: `action` centralizes 2 files; Antithesis: `client` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `action` centralizes 2 files; Antithesis: `decrypt` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `action` centralizes 2 files; Antithesis: `derive` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `action` centralizes 2 files; Antithesis: `encrypt` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `action` centralizes 2 files; Antithesis: `form` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `action` centralizes 2 files; Antithesis: `get` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `action` centralizes 2 files; Antithesis: `gif` pulls 3 files with 2 shared (Jaccard 0.67); Synthesis: should they merge, split by layer, or keep `depends_on` explicit?
+- Thesis: `action` centralizes 2 files; Antithesis: `json` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
