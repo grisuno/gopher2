@@ -1,0 +1,1630 @@
+{
+  "concepts": [
+    {
+      "name": "para",
+      "files": [
+        "client.py",
+        "image_renderer.py",
+        "install.sh",
+        "server.py"
+      ],
+      "mentions": 9,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "ansi",
+      "files": [
+        "ansi_widgets.py",
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 14,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "sin",
+      "files": [
+        "client.py",
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 10,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "public",
+      "files": [
+        "client.py",
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 9,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "render",
+      "files": [
+        "client.py",
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 8,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "key",
+      "files": [
+        "ansi_widgets.py",
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 7,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "width",
+      "files": [
+        "client.py",
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 7,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "gif",
+      "files": [
+        "client.py",
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 6,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "server",
+      "files": [
+        "client.py",
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 6,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "terminal",
+      "files": [
+        "client.py",
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 6,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "bytes",
+      "files": [
+        "client.py",
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 4,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "error",
+      "files": [
+        "client.py",
+        "image_renderer.py",
+        "install.sh"
+      ],
+      "mentions": 4,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "que",
+      "files": [
+        "client.py",
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "image",
+      "files": [
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 8,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "devuelve",
+      "files": [
+        "client.py",
+        "image_renderer.py"
+      ],
+      "mentions": 7,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "frame",
+      "files": [
+        "client.py",
+        "image_renderer.py"
+      ],
+      "mentions": 7,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "block",
+      "files": [
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 5,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "con",
+      "files": [
+        "client.py",
+        "image_renderer.py"
+      ],
+      "mentions": 5,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "form",
+      "files": [
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 5,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "get",
+      "files": [
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 5,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "links",
+      "files": [
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 5,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "texto",
+      "files": [
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 5,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "cach",
+      "files": [
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 4,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "client",
+      "files": [
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 4,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "renderer",
+      "files": [
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 4,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "action",
+      "files": [
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "ancho",
+      "files": [
+        "client.py",
+        "image_renderer.py"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "auto",
+      "files": [
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "decrypt",
+      "files": [
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "multi",
+      "files": [
+        "client.py",
+        "image_renderer.py"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "por",
+      "files": [
+        "client.py",
+        "image_renderer.py"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "saneo",
+      "files": [
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "sanitize",
+      "files": [
+        "ansi_widgets.py",
+        "server.py"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "separa",
+      "files": [
+        "client.py",
+        "image_renderer.py"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "servidor",
+      "files": [
+        "client.py",
+        "install.sh"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "sobre",
+      "files": [
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "x1f",
+      "files": [
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "animation",
+      "files": [
+        "client.py",
+        "image_renderer.py"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "bloque",
+      "files": [
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "clamp",
+      "files": [
+        "ansi_widgets.py",
+        "image_renderer.py"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "cliente",
+      "files": [
+        "install.sh",
+        "server.py"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "convierte",
+      "files": [
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "derive",
+      "files": [
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "encrypt",
+      "files": [
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "gopher",
+      "files": [
+        "client.py",
+        "install.sh"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "gopher2",
+      "files": [
+        "client.py",
+        "image_renderer.py"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "img",
+      "files": [
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "json",
+      "files": [
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "link",
+      "files": [
+        "client.py",
+        "server.py"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "parse",
+      "files": [
+        "image_renderer.py",
+        "server.py"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    }
+  ],
+  "relations": [
+    {
+      "source": "action",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bytes",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bytes",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "client",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "client",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "decrypt",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "decrypt",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "derive",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "derive",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "encrypt",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "encrypt",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "form",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "form",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "get",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "get",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "gif",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "gif",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "json",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "json",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "key",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "key",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "link",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "link",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "links",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "links",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "para",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "para",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "public",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "public",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "que",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "que",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "render",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "render",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "server",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "server",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "sin",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "sin",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "terminal",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "terminal",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "texto",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "texto",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "width",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "width",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "x1f",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "x1f",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 1.0,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "ancho",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "animation",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "auto",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "block",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "bytes",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "cach",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "con",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "convierte",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "devuelve",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "error",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "frame",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "gif",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "gopher2",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "image",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "img",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "multi",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "para",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "parse",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "por",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "public",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "que",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "render",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "renderer",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "saneo",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "separa",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "server",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "sin",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "sobre",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "terminal",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "action",
+      "target": "width",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "ansi",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "auto",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "auto",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "block",
+      "target": "ansi",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "block",
+      "target": "clamp",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "server.py->ansi_widgets.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "ancho",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "animation",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "auto",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "block",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "bytes",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "cach",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "con",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "convierte",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "devuelve",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "error",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "frame",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "gif",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "gopher2",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "image",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "img",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "multi",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    },
+    {
+      "source": "bloque",
+      "target": "para",
+      "verb": "depends_on",
+      "strength": 0.67,
+      "confidence": "INFERRED",
+      "evidence": [
+        "client.py->image_renderer.py",
+        "server.py->image_renderer.py"
+      ]
+    }
+  ],
+  "dialectic": [
+    "Thesis: `action` centralizes 2 files; Antithesis: `bloque` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `action` centralizes 2 files; Antithesis: `bytes` pulls 3 files with 2 shared (Jaccard 0.67); Synthesis: should they merge, split by layer, or keep `depends_on` explicit?",
+    "Thesis: `action` centralizes 2 files; Antithesis: `client` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `action` centralizes 2 files; Antithesis: `decrypt` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `action` centralizes 2 files; Antithesis: `derive` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `action` centralizes 2 files; Antithesis: `encrypt` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `action` centralizes 2 files; Antithesis: `form` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `action` centralizes 2 files; Antithesis: `get` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `action` centralizes 2 files; Antithesis: `gif` pulls 3 files with 2 shared (Jaccard 0.67); Synthesis: should they merge, split by layer, or keep `depends_on` explicit?",
+    "Thesis: `action` centralizes 2 files; Antithesis: `json` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?"
+  ]
+}
